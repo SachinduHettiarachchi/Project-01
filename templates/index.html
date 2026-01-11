@@ -1,0 +1,74 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <section class="hero">
+    <div class="container">
+      <div class="hero-content">
+        <h2>Let's Eat Quality Food</h2>
+        <p>Discover thousands of recipes from around the world</p>
+        <a href="#featured-recipes" class="btn">Explore Recipes</a>
+      </div>
+    </div>
+  </section>
+  
+  <section id="featured-recipes" class="featured-recipes">
+    <div class="container">
+      <h2 class="section-title">Featured Recipes</h2>
+      <div class="recipe-grid" id="featured-recipes-container">
+        {% for recipe in featured_recipes %}
+          <div class="recipe-card">
+            <img src="{{ url_for('static', filename=recipe.image) }}" alt="{{ recipe.title }}">
+            <div class="recipe-content">
+              <h3>{{ recipe.title }}</h3>
+              <p>{{ recipe.description[:100] }}{% if recipe.description|length > 100 %}...{% endif %}</p>
+              <div class="recipe-meta">
+                <span><i class="far fa-clock"></i> {{ recipe.prep_time + recipe.cook_time }} mins</span>
+                <span><i class="fas fa-chart-line"></i> {{ recipe.difficulty }}</span>
+              </div>
+              <a href="{{ url_for('recipe_detail', recipe_id=recipe.id) }}" class="btn">View Recipe</a>
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+  </section>
+  <section class="categories">
+    <div class="container">
+      <h2 class="section-title">Browse by Category</h2>
+      <div class="category-grid">
+        <!-- categorie cards  -->
+      </div>
+    </div>
+  </section>
+  
+  <section class="categories">
+    <div class="category-grid">
+      <a href="{{ url_for('categories', category='Salad') }}" class="category-card">
+        <img src="{{ url_for('static', filename='img/salad.jpg') }}" alt="Salad">
+        <h3>Salad</h3>
+      </a>
+      <a href="{{ url_for('categories', category='Rice') }}" class="category-card">
+        <img src="{{ url_for('static', filename='img/rice.jpg') }}" alt="Rice">
+        <h3>Rice</h3>
+      </a>
+      <a href="{{ url_for('categories', category='Pasta') }}" class="category-card">
+        <img src="{{ url_for('static', filename='img/pasta.jpg') }}" alt="Pasta">
+        <h3>Pasta</h3>
+      </a>
+      <a href="{{ url_for('categories', category='Sandwich') }}" class="category-card">
+        <img src="{{ url_for('static', filename='img/sandwich.jpg') }}" alt="Sandwich">
+        <h3>Sandwich</h3>
+      </a>
+      <a href="{{ url_for('categories', category='Dessert') }}" class="category-card">
+        <img src="{{ url_for('static', filename='img/dessert.jpg') }}" alt="Dessert">
+        <h3>Dessert</h3>
+      </a>
+      <a href="{{ url_for('categories', category='Pizza') }}" class="category-card">
+        <img src="{{ url_for('static', filename='img/pizza.jpg') }}" alt="Pizza">
+        <h3>Pizza</h3>
+      </a>
+
+      </div>
+    </div>
+  </section>
+{% endblock %}

@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+
+{% block title %}Categories - Food Recipe System{% endblock %}
+
+{% block content %}
+<div class="container">
+  <div class="category-header">
+    <h1 id="category-title">{% if category %}{{ category }}{% else %}All Categories{% endif %}</h1>
+    <p>Browse through our collection of <span class="recipe-count">{{ recipes|length }}</span> delicious recipes</p>
+  </div>
+  
+  <div class="category-filters">
+    <div class="filter-options">
+      <a href="{{ url_for('categories') }}" class="filter-btn {% if not category %}active{% endif %}">All</a>
+      <a href="{{ url_for('categories', category='Pasta') }}" class="filter-btn {% if category == 'Pasta' %}active{% endif %}">Pasta</a>
+      <a href="{{ url_for('categories', category='Curry') }}" class="filter-btn {% if category == 'Curry' %}active{% endif %}">Curry</a>
+      <a href="{{ url_for('categories', category='Vegetarian') }}" class="filter-btn {% if category == 'Vegetarian' %}active{% endif %}">Vegetarian</a>
+      <a href="{{ url_for('categories', category='Chicken') }}" class="filter-btn {% if category == 'Chicken' %}active{% endif %}">Chicken</a>
+      <a href="{{ url_for('categories', category='Dessert') }}" class="filter-btn {% if category == 'Dessert' %}active{% endif %}">Dessert</a>
+      <a href="{{ url_for('categories', category='Salad') }}" class="filter-btn {% if category == 'Salad' %}active{% endif %}">Salad</a>
+      <a href="{{ url_for('categories', category='Pizza') }}" class="filter-btn {% if category == 'Pizza' %}active{% endif %}">Pizza</a>
+    </div>
+  </div>
+  
+  <div class="recipe-grid" id="category-recipes-container">
+    {% if recipes %}
+      {% for recipe in recipes %}
+        <div class="recipe-card">
+          <img src="{{ url_for('static', filename=recipe.image) }}" alt="{{ recipe.title }}">
+          <div class="recipe-content">
+            <h3>{{ recipe.title }}</h3>
+            <p>{{ recipe.description[:100] }}{% if recipe.description|length > 100 %}...{% endif %}</p>
+            <div class="recipe-meta">
+              <span><i class="far fa-clock"></i> {{ recipe.prep_time + recipe.cook_time }} mins</span>
+              <span><i class="fas fa-chart-line"></i> {{ recipe.difficulty }}</span>
+            </div>
+            <a href="{{ url_for('recipe_detail', recipe_id=recipe.id) }}" class="btn">View Recipe</a>
+          </div>
+        </div>
+      {% endfor %}
+    {% else %}
+      <p class="no-results">No recipes found in this category.</p>
+    {% endif %}
+  </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+ 
+</script>
+{% endblock %}

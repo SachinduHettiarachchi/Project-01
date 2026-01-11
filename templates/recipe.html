@@ -1,0 +1,113 @@
+{% extends "base.html" %}
+
+{% block title %}{{ recipe.title }} - Food Recipe System{% endblock %}
+
+{% block content %}
+<div class="container">
+  <div class="recipe-detail">
+    <div class="recipe-header">
+      <h1 class="recipe-title">{{ recipe.title }}</h1>
+      <div class="recipe-meta">
+        <span class="recipe-difficulty"><i class="fas fa-chart-line"></i> <span class="difficulty">{{ recipe.difficulty }}</span></span>
+        <span class="recipe-time"><i class="fas fa-clock"></i> <span class="prep-time">{{ recipe.prep_time }}</span> prep + <span class="cook-time">{{ recipe.cook_time }}</span> cook</span>
+        <span class="recipe-servings"><i class="fas fa-utensils"></i> <span class="servings">{{ recipe.servings }}</span> servings</span>
+      </div>
+    </div>
+    
+    <div class="recipe-image-container">
+      <img src="{{ url_for('static', filename=recipe.image) }}" alt="{{ recipe.title }}" class="recipe-image">
+    </div>
+    
+    <div class="recipe-actions">
+      <button id="save-recipe" class="btn-action" data-recipe-id="{{ recipe.id }}"><i class="far fa-bookmark"></i> Save</button>
+      <button id="share-recipe" class="btn-action"><i class="fas fa-share-alt"></i> Share</button>
+      <button id="print-recipe" class="btn-action"><i class="fas fa-print"></i> Print</button>
+    </div>
+    
+    <div class="recipe-description">
+      <p>{{ recipe.description }}</p>
+    </div>
+    
+    <div class="recipe-content">
+      <div class="ingredients-section">
+        <h2><i class="fas fa-shopping-basket"></i> Ingredients</h2>
+        <ul class="ingredients-list">
+          {% for ingredient in recipe.ingredients %}
+            <li>{{ ingredient }}</li>
+          {% endfor %}
+        </ul>
+      </div>
+      
+      <div class="instructions-section">
+        <h2><i class="fas fa-list-ol"></i> Instructions</h2>
+        <ol class="instructions-list">
+          {% for instruction in recipe.instructions %}
+            <li><span class="step-number">{{ loop.index }}</span> {{ instruction }}</li>
+          {% endfor %}
+        </ol>
+      </div>
+    </div>
+    
+    <div class="recipe-rating">
+      <h2>Rate this recipe</h2>
+      <div class="stars-container">
+        <i class="far fa-star" data-rating="1"></i>
+        <i class="far fa-star" data-rating="2"></i>
+        <i class="far fa-star" data-rating="3"></i>
+        <i class="far fa-star" data-rating="4"></i>
+        <i class="far fa-star" data-rating="5"></i>
+      </div>
+    </div>
+    
+    <div class="recipe-comments">
+      <h2><i class="far fa-comments"></i> Comments</h2>
+      <div class="comment-form">
+        <textarea id="comment-text" placeholder="Share your thoughts on this recipe..."></textarea>
+        <button id="submit-comment" class="btn" data-recipe-id="{{ recipe.id }}">Add Comment</button>
+      </div>
+      <div class="comments-list">
+        {% if recipe.comments %}
+          {% for comment in recipe.comments %}
+            <div class="comment">
+              <div class="comment-header">
+                <span class="comment-author">{{ comment.author }}</span>
+                <span class="comment-date">{{ comment.date }}</span>
+              </div>
+              <div class="comment-body">
+                <p>{{ comment.text }}</p>
+              </div>
+            </div>
+          {% endfor %}
+        {% else %}
+          <p class="no-comments">No comments yet. Be the first to share your thoughts!</p>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    // Save recipe functionality
+    const saveButton = document.getElementById('save-recipe');
+    if (saveButton) {
+      saveButton.addEventListener('click', function() {
+        const recipeId = this.getAttribute('data-recipe-id');
+        // Code to save recipe
+      });
+    }
+    
+    // Comment submission
+    const submitComment = document.getElementById('submit-comment');
+    if (submitComment) {
+      submitComment.addEventListener('click', function() {
+        const recipeId = this.getAttribute('data-recipe-id');
+        const commentText = document.getElementById('comment-text').value.trim();
+        // Code to submit comment
+      });
+    }
+  });
+</script>
+{% endblock %}
